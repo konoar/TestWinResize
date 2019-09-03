@@ -15,8 +15,11 @@ struct ksRenderData
 
 #define KS_RENDER_MAX 5
 
-    long width;
-    long height;
+    long screenW;   // px
+    long screenH;   // px
+
+    long paperW;    // mm
+    long paperH;    // mm
 
     struct
     {

@@ -9,26 +9,29 @@
 
 void ksExport(ksRenderData* data, ksRenderFunc func, const wchar_t* filename)
 {
-    RECT r = { 0, 0, 0, 0 };
-
-    TCHAR desc[] =
-        TEXT("TestWinResize\0")
-        TEXT("OneUp\\0\0");
 
     HDC hMetaDC, hScreenDC;
-    float pxX, pxY, mmX, mmY;
 
-    // 30cm
-    SetRect(&r, 0, 0, data->width * 100, data->height * 100);
+    RECT r;
+
+    // 0.01ミリ単位の出力サイズ
+    SetRect(&r, 0, 0, data->paperW * 100, data->paperH * 100);
 
     hScreenDC = GetDC(NULL);
+
+    float pxX, pxY, mmX, mmY;
 
     pxX = (float)GetDeviceCaps(hScreenDC, HORZRES);
     pxY = (float)GetDeviceCaps(hScreenDC, VERTRES);
     mmX = (float)GetDeviceCaps(hScreenDC, HORZSIZE);
     mmY = (float)GetDeviceCaps(hScreenDC, VERTSIZE);
 
-    hMetaDC = CreateEnhMetaFile(hScreenDC, filename, &r, desc);
+    hMetaDC = CreateEnhMetaFile(
+        NULL,
+        filename,
+        &r,
+        TEXT("TestWinResize.exe\0")
+        TEXT("OneUp\\0\0"));
 
     ReleaseDC(NULL, hScreenDC);
 
@@ -40,19 +43,21 @@ void ksExport(ksRenderData* data, ksRenderFunc func, const wchar_t* filename)
 
     SetWindowExtEx(
         hMetaDC,
-        data->width,
-        data->height,
+        data->screenW,
+        data->screenW,
         NULL);
 
     SetViewportExtEx(
         hMetaDC,
-        data->width  * (pxX / mmX),
-        data->height * (pxY / mmY),
+        (float)data->paperW * (pxX / mmX),
+        (float)data->paperH * (pxY / mmY),
         NULL
     );
 
     func(hMetaDC, data);
 
-    CloseEnhMetaFile(hMetaDC);
+    DeleteEnhMetaFile(
+        CloseEnhMetaFile(hMetaDC)
+    );
 
 }

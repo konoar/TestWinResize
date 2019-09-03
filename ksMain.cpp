@@ -9,6 +9,8 @@
 
 #define KS_SCREEN_W  300
 #define KS_SCREEN_H  300
+#define KS_PAPER_W   500
+#define KS_PAPER_H   500
 #define KS_ID_BT    1000
 
 void ksRender(HDC hdc, ksRenderData *d)
@@ -46,8 +48,11 @@ LRESULT __stdcall WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 
     case WM_CREATE:
 
-        d.width     = KS_SCREEN_W;
-        d.height    = KS_SCREEN_H;
+        d.screenW = KS_SCREEN_W;
+        d.screenH = KS_SCREEN_H;
+
+        d.paperW  = KS_PAPER_W;
+        d.paperH  = KS_PAPER_H;
 
         srand(GetTickCount());
 
