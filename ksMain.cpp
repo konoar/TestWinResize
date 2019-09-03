@@ -112,7 +112,7 @@ LRESULT __stdcall WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
             f.nMaxFile      = MAX_PATH;
             f.Flags         = OFN_EXPLORER;
             f.lpstrFilter   =
-                TEXT("EMF files {*.emf}\0*.txt\0")
+                TEXT("EMF files {*.emf}\0*.emf\0")
                 TEXT("All files {*.*}\0.*\0\0");
             f.nFilterIndex  = 0;
 
