@@ -9,22 +9,27 @@
 
 void ksExport(ksRenderData* data, ksRenderFunc func, const wchar_t* filename)
 {
+    //
+    // 実際の画面表示はタイトルバーの高さ分短いです
+    //
 
     HDC hMetaDC, hScreenDC;
 
     RECT r;
 
+    //
     // 0.01ミリ単位の出力サイズ
+    //
     SetRect(&r, 0, 0, data->paperW * 100, data->paperH * 100);
 
     hScreenDC = GetDC(NULL);
 
-    float pxX, pxY, mmX, mmY;
+    double pxX, pxY, mmX, mmY;
 
-    pxX = (float)GetDeviceCaps(hScreenDC, HORZRES);
-    pxY = (float)GetDeviceCaps(hScreenDC, VERTRES);
-    mmX = (float)GetDeviceCaps(hScreenDC, HORZSIZE);
-    mmY = (float)GetDeviceCaps(hScreenDC, VERTSIZE);
+    pxX = (double)GetDeviceCaps(hScreenDC, HORZRES);
+    pxY = (double)GetDeviceCaps(hScreenDC, VERTRES);
+    mmX = (double)GetDeviceCaps(hScreenDC, HORZSIZE);
+    mmY = (double)GetDeviceCaps(hScreenDC, VERTSIZE);
 
     hMetaDC = CreateEnhMetaFile(
         NULL,
@@ -44,13 +49,13 @@ void ksExport(ksRenderData* data, ksRenderFunc func, const wchar_t* filename)
     SetWindowExtEx(
         hMetaDC,
         data->screenW,
-        data->screenW,
+        data->screenH,
         NULL);
 
     SetViewportExtEx(
         hMetaDC,
-        (float)data->paperW * (pxX / mmX),
-        (float)data->paperH * (pxY / mmY),
+        (int)((double)data->paperW * (pxX / mmX)),
+        (int)((double)data->paperH * (pxY / mmY)),
         NULL
     );
 
