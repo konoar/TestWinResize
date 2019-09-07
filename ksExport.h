@@ -33,7 +33,7 @@ struct ksRenderData
 
 typedef void (*ksRenderFunc)(HDC, ksRenderData*);
 
-void ksExport(
+BOOL ksExport(
     ksRenderData* data, ksRenderFunc func, const wchar_t* filename);
 
 #endif // __KS_EXPORT_H__

@@ -9,8 +9,8 @@
 
 #define KS_SCREEN_W  300
 #define KS_SCREEN_H  300
-#define KS_PAPER_W   500
-#define KS_PAPER_H   500
+#define KS_PAPER_W   200
+#define KS_PAPER_H   200
 #define KS_ID_BT    1000
 
 void ksRender(HDC hdc, ksRenderData *d)
@@ -20,8 +20,8 @@ void ksRender(HDC hdc, ksRenderData *d)
     HBRUSH  hbrushbak;
 
     hpen        = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
-    hpenbak     = (HPEN)    SelectObject(hdc, hpen);
-    hbrushbak   = (HBRUSH)  SelectObject(hdc, GetStockObject(NULL_BRUSH));
+    hpenbak     =   (HPEN)SelectObject(hdc, hpen);
+    hbrushbak   = (HBRUSH)SelectObject(hdc, GetStockObject(NULL_BRUSH));
 
     for (int idx = 0; idx < KS_RENDER_MAX; idx++) {
         Ellipse(
@@ -67,10 +67,7 @@ LRESULT __stdcall WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
             TEXT("BUTTON"),
             TEXT("エクスポート..."),
             WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-            10,
-            10,
-            150,
-            40,
+            10, 10, 130, 40,
             hwnd,
             (HMENU)KS_ID_BT,
 #ifdef _WIN64
@@ -103,8 +100,10 @@ LRESULT __stdcall WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 
         case KS_ID_BT:
         {
-            OPENFILENAME f  = { 0 };
-            TCHAR p[MAX_PATH] = L"\0";
+            TCHAR p[MAX_PATH] = L"Test.emf";
+            OPENFILENAME f;
+
+            ZeroMemory(&f, sizeof(OPENFILENAME));
 
             f.lStructSize   = sizeof(OPENFILENAME);
             f.hwndOwner     = hwnd;
@@ -156,7 +155,7 @@ LRESULT __stdcall WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 int __stdcall WinMain(HINSTANCE hinst, HINSTANCE hprev, LPSTR cmd, int show)
 {
 
-    TCHAR appname[] = TEXT("TestResize");
+    TCHAR appname[] = TEXT("TestWinResize");
 
     WNDCLASSEX app;
 
