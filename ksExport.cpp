@@ -100,9 +100,9 @@ static BOOL ksGetEMFRect(const wchar_t* filename, RECT* r)
 {
 
     HENHMETAFILE fh;
-    DWORD sz = 0;
-    LPVOID dt = NULL;
-    BOOL retval = TRUE;
+    DWORD   sz      = 0;
+    LPVOID  dt      = NULL;
+    BOOL    retval  = TRUE;
 
     if (NULL == (fh = GetEnhMetaFile(filename))) {
         return FALSE;
@@ -173,7 +173,7 @@ static BOOL ksDrawEMF(
 
         if (NULL == (hrgn = CreateRectRgn(
             (int)((double)(x         ) * (pxX / mmX) * 0.01),
-            (int)((double)(y         ) * (pxX / mmX) * 0.01),
+            (int)((double)(y         ) * (pxY / mmY) * 0.01),
             (int)((double)(x + width ) * (pxX / mmX) * 0.01),
             (int)((double)(y + height) * (pxY / mmY) * 0.01)))) {
             retval = FALSE;
@@ -228,7 +228,9 @@ static BOOL ksMake4Up(
     const wchar_t* filenamein, const wchar_t* filenameout)
 {
 
-    const int margin = 10 * 100;
+    const int margin    = 10 * 100;
+    const int margin_tp = margin / 10 *  6;
+    const int margin_bt = margin / 10 * 14;
 
     RECT r;
     HDC hdc;
@@ -241,30 +243,30 @@ static BOOL ksMake4Up(
         // ページ１ 左上
         {
             margin,
-            margin,
+            margin_tp,
             r.right  / 2 - margin,
-            r.bottom / 2 - margin
+            r.bottom / 2 - margin_bt
         },
         // ページ２ 右上
         {
             r.right  / 2 + margin,
-            margin,
+            margin_tp,
             r.right      - margin,
-            r.bottom / 2 - margin
+            r.bottom / 2 - margin_bt
         },
         // ページ３ 左下
         {
             margin,
-            r.bottom / 2 + margin,
+            r.bottom / 2 + margin_tp,
             r.right  / 2 - margin,
-            r.bottom     - margin
+            r.bottom     - margin_bt
         },
         // ページ４ 右下
         {
             r.right  / 2 + margin,
-            r.bottom / 2 + margin,
+            r.bottom / 2 + margin_tp,
             r.right      - margin,
-            r.bottom     - margin
+            r.bottom     - margin_bt
         }
     };
 

@@ -29,7 +29,8 @@ void ksRender(HDC hdc, ksRenderData *d)
             d->record[idx].pos.x - d->record[idx].rad,
             d->record[idx].pos.y - d->record[idx].rad,
             d->record[idx].pos.x + d->record[idx].rad,
-            d->record[idx].pos.y + d->record[idx].rad);
+            d->record[idx].pos.y + d->record[idx].rad
+        );
     }
 
     SelectObject(hdc, hpenbak);
