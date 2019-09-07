@@ -282,9 +282,6 @@ static BOOL ksMake4Up(
 
     for (int idx = 0; idx < 4; idx++) {
 
-        int x = w[idx].left;
-        int y = w[idx].top;
-
         ksDrawEMF(
             hdc,
             filenamein,
