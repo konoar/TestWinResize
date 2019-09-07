@@ -280,7 +280,6 @@ static BOOL ksMake4Up(
         return FALSE;
     }
 
-#if 1
     for (int idx = 0; idx < 4; idx++) {
 
         int x = w[idx].left;
@@ -304,18 +303,6 @@ static BOOL ksMake4Up(
         );
 
     }
-#else
-
-    ksDrawEMF(
-        hdc,
-        filenamein,
-        1000,
-        14600,
-        200 * 100,
-        200 * 100
-    );
-
-#endif
 
     DeleteEnhMetaFile(
         CloseEnhMetaFile(hdc)
