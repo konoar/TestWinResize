@@ -6,6 +6,7 @@
  ****************************************************/
 
 #include "ksExport.h"
+#include "wchar.h"
 
 static BOOL ksGetTempFilename(wchar_t* filename, int max)
 {
@@ -224,6 +225,56 @@ static BOOL ksDrawFrame(HDC hdc, int x, int y, int width, int height)
 
 }
 
+static BOOL ksDrawPageNo(HDC hdc, int x, int y, int no)
+{
+
+    HFONT hfnt, hfntbak;
+    wchar_t buff[16];
+
+    hfnt = CreateFont(
+        300, 0, 0, 0,
+        FW_LIGHT, 0, 0, 0,
+        DEFAULT_CHARSET,
+        OUT_DEFAULT_PRECIS,
+        CLIP_DEFAULT_PRECIS,
+        DEFAULT_QUALITY,
+        DEFAULT_PITCH,
+        L"ÇlÇr ÉSÉVÉbÉN"
+    );
+
+    if (0 == hfnt) {
+        return FALSE;
+    }
+
+    SetBkMode(hdc, TRANSPARENT);
+    SetTextColor(hdc, RGB(0, 0, 0));
+
+    hfntbak = (HFONT)SelectObject(hdc, hfnt); {
+
+        if (0 < swprintf(buff, 16, L"ÉyÅ[ÉW %d", no)) {
+
+            RECT r;
+
+            DrawText(hdc, buff, wcslen(buff), &r, DT_CALCRECT);
+
+            TextOut(
+                hdc,
+                x - ((r.right  - r.left) / 2),
+                y - ((r.bottom - r.top ) / 2),
+                buff,
+                wcslen(buff)
+            );
+
+        }
+
+    } SelectObject(hdc, hfntbak);
+
+    DeleteObject(hfnt);
+
+    return TRUE;
+
+}
+
 static BOOL ksMake4Up(
     const wchar_t* filenamein, const wchar_t* filenameout)
 {
@@ -299,6 +350,13 @@ static BOOL ksMake4Up(
             w[idx].top,
             w[idx].right  - w[idx].left,
             w[idx].bottom - w[idx].top
+        );
+
+        ksDrawPageNo(
+            hdc,
+            w[idx].left + (w[idx].right - w[idx].left) / 2,
+            w[idx].bottom + margin_bt / 2,
+            idx + 1
         );
 
     }
