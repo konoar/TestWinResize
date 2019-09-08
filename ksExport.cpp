@@ -246,7 +246,7 @@ static BOOL ksDrawPageNo(HDC hdc, int x, int y, int no)
         return FALSE;
     }
 
-    SetBkMode(hdc, TRANSPARENT);
+    SetBkMode   (hdc, TRANSPARENT);
     SetTextColor(hdc, RGB(0, 0, 0));
 
     hfntbak = (HFONT)SelectObject(hdc, hfnt); {
@@ -255,7 +255,13 @@ static BOOL ksDrawPageNo(HDC hdc, int x, int y, int no)
 
             RECT r;
 
-            DrawText(hdc, buff, wcslen(buff), &r, DT_CALCRECT);
+            DrawText(
+                hdc,
+                buff,
+                wcslen(buff),
+                &r,
+                DT_CALCRECT
+            );
 
             TextOut(
                 hdc,
