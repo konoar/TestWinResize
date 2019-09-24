@@ -62,7 +62,7 @@ static BOOL ksMakeEMF(
         filename,
         &r,
         TEXT("TestWinResize.exe\0")
-        TEXT("OneUp\\0\0")
+        TEXT("OneUp\0\0")
     );
 
     ReleaseDC(NULL, hScreenDC);
@@ -332,7 +332,7 @@ static BOOL ksMake4Up(
         filenameout,
         &r,
         TEXT("TestWinResize.exe\0")
-        TEXT("FourUp\\0\0")
+        TEXT("FourUp\0\0")
     );
 
     if (!hdc) {
